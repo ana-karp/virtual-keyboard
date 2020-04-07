@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text&family=Roboto:wght@400;700&display=swap');
+
+body {
+  background-color: #b5b5b5;
+  font-family: 'Roboto', sans-serif;
+}
+
+.wrapper {
+  max-width: 650px;
+  margin: auto;
+}
+
+textarea {
+  display: block;
+  box-sizing: border-box;
+  padding: 10px;
+  box-shadow: 6px 7px 5px 0px #826b74;
+  width: 100%;
+  height: 30vh;
+  margin-bottom: 10px;
+  resize: none;
+  font-size: 20px;
+  font-family: 'Crimson Text', serif;
+  background-color: honeydew;
+}
+
+.keyboard-container {
+  box-sizing: border-box;
+  box-shadow: 6px 7px 5px 0px #826b74;
+  width: 100%;
+  margin: auto;
+  padding: 10px;
+  border: 1px solid #1d1d1f;
+  background-color: rgb(34, 32, 32);
+  border-radius: 5px;
+  display: grid;
+  grid-template-columns: repeat(15, 1fr);
+  gap: 5px;
+  user-select: none;
+}
+
+footer {
+  margin-top: 20px;
+  font-size: small;
+}
+
+.key {
+  box-sizing: border-box;
+  width: auto;
+  height: 2.1rem;
+  line-height: 2rem;
+  text-align: center;
+  border-right: double honeydew;
+  border-bottom: double honeydew;
+  border-radius: 5px;
+  background: rgb(71, 71, 71);
+  background: linear-gradient(
+    50deg,
+    rgba(71, 71, 71, 1) 0%,
+    rgba(0, 0, 0, 1) 88%
+  );
+  color: honeydew;
+}
+
+.key.control {
+  font-size: small;
+  background-color: rgb(73, 70, 70);
+}
+
+.key:hover {
+  cursor: pointer;
+  background: rgb(54, 172, 208);
+  background: linear-gradient(
+    45deg,
+    rgba(54, 172, 208, 1) 0%,
+    rgba(61, 124, 34, 1) 100%
+  );
+}
+
+.key-active {
+  background: rgb(54, 172, 208);
+  background: linear-gradient(
+    45deg,
+    rgba(54, 172, 208, 1) 0%,
+    rgba(61, 124, 34, 1) 100%
+  );
+  border: solid 2px honeydew;
+}
+
+.ctrl-active {
+  background: rgb(181, 181, 181);
+  background: linear-gradient(
+    50deg,
+    rgba(181, 181, 181, 1) 0%,
+    rgba(95, 95, 95, 1) 88%
+  );
+}
+
+#Backquote {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+#KeyQ,
+#KeyA,
+#KeyZ {
+  grid-column: 3;
+}
+
+#Digit1 {
+  grid-column: 2;
+}
+
+#Backspace {
+  grid-column: 14 / 16;
+  grid-row-start: 1;
+}
+
+#Tab {
+  grid-column: 1 / 3;
+  grid-row-start: 2;
+}
+
+#CapsLock {
+  grid-column: 1 / 3;
+  grid-row-start: 3;
+}
+
+#Enter {
+  grid-column: 14 / 16;
+  grid-row-start: 3;
+}
+
+#ShiftLeft {
+  grid-column: 1 / 3;
+  grid-row: 4;
+}
+
+#Space {
+  grid-column: 4 / 10;
+  grid-row: 5;
+}
+
+#ShiftRight {
+  grid-column: 14 / 16;
+}
