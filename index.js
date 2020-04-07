@@ -25,10 +25,6 @@ function createKeys(keysArr, keyClassName, keyValue) {
     keyboard.appendChild(element);
   }
 }
-createKeys(digits, 'digit', 'digit');
-createKeys(keys, 'letter', language);
-createKeys(controls, 'control', 'value');
-document.getElementById('lang').innerText = language.toUpperCase();
 
 function toggleCaps() {
   document.querySelectorAll('.key.letter').forEach((e) => {
@@ -64,7 +60,7 @@ function toggleShift() {
     if (isShift) {
       if (keys[i][language].length === 2) {
         e.innerText = keys[i][language][0];
-      } else {
+      } else if (!isCapsActive) {
         e.innerText = e.textContent.toLowerCase();
       }
     } else if (keys[i][language].length === 2) {
@@ -76,15 +72,38 @@ function toggleShift() {
   isShift = isShift !== true;
 }
 
+function deleteChar() {
+  const start = input.selectionStart;
+  const end = input.selectionEnd;
+  if (end - start > 0) {
+    input.textContent = input.textContent.slice(0, start) + input.textContent.slice(end);
+    input.selectionStart = start;
+    input.selectionEnd = start;
+  } else if (start !== 0) {
+    input.textContent = input.textContent.slice(0, start - 1) + input.textContent.slice(end);
+    input.selectionStart = start - 1;
+  }
+  input.scrollTop = input.scrollHeight;
+}
+
+function add(char) {
+  input.focus();
+  const start = input.selectionStart;
+  const end = input.selectionEnd;
+  input.textContent = input.textContent.slice(0, start) + char + input.textContent.slice(end);
+  input.selectionStart = start + 1;
+  input.scrollTop = input.scrollHeight;
+}
+
 function controlKeys(key) {
   if (key === 'CapsLock') toggleCaps();
-  if (key === 'Tab') input.textContent += '    ';
-  if (key === 'Backspace') input.textContent = input.textContent.slice(0, -1);
-  if (key === 'Enter') input.textContent += '\n';
-  if (key === 'ArrowLeft') input.textContent += '←';
-  if (key === 'ArrowRight') input.textContent += '→';
-  if (key === 'ArrowUp') input.textContent += '↑';
-  if (key === 'ArrowDown') input.textContent += '↓';
+  if (key === 'Tab') add('\t');
+  if (key === 'Backspace') deleteChar();
+  if (key === 'Enter') add('\n');
+  if (key === 'ArrowLeft') add('←');
+  if (key === 'ArrowRight') add('→');
+  if (key === 'ArrowUp') add('↑');
+  if (key === 'ArrowDown') add('↓');
   if (key === 'lang') toggleLang();
   if (key.includes('Shift')) toggleShift();
 }
@@ -95,7 +114,7 @@ document.addEventListener('keydown', (event) => {
   if (pressedKey) {
     pressedKey.classList.add('key-active');
     if (pressedKey.className.includes('letter') || pressedKey.className.includes('digit')) {
-      input.textContent += pressedKey.textContent;
+      add(pressedKey.textContent);
     } else if (!event.shiftKey) {
       controlKeys(event.code);
     }
@@ -109,7 +128,7 @@ document.addEventListener('keydown', (event) => {
 document.addEventListener('keyup', (event) => {
   const key = document.getElementById(event.code);
   if (key) key.classList.remove('key-active');
-  if (event.code.includes('Shift')) toggleShift();
+  if (isShift) toggleShift();
 });
 
 keyboard.addEventListener('mousedown', (event) => {
@@ -127,13 +146,26 @@ keyboard.addEventListener('mouseout', (event) => {
 });
 
 keyboard.addEventListener('click', (event) => {
+  input.focus();
   if (event.target.className === 'key letter' || event.target.className === 'key digit') {
-    input.textContent += event.target.textContent;
-    if (isShift) toggleShift();
+    add(event.target.textContent);
+    if (isShift) {
+      toggleShift();
+      if (isCapsActive) {
+        document.querySelectorAll('.key.letter').forEach((e) => {
+          e.textContent = e.textContent.toUpperCase();
+        });
+      }
+    }
   } else {
     controlKeys(event.target.id);
   }
 });
+
+createKeys(digits, 'digit', 'digit');
+createKeys(keys, 'letter', language);
+createKeys(controls, 'control', 'value');
+document.getElementById('lang').innerText = language.toUpperCase();
 
 const footer = document.createElement('footer');
 footer.innerHTML = '<p>Change language - Ctrl + Alt Left or ENG/RU<br >OS Windows<br >&copy; Anna Karp</p>';
