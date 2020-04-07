@@ -31,7 +31,7 @@ function toggleCaps() {
     e.textContent = isCapsActive ? e.textContent.toLowerCase() : e.textContent.toUpperCase();
   });
   document.getElementById('CapsLock').classList.toggle('ctrl-active');
-  isCapsActive = isCapsActive !== true;
+  isCapsActive = !isCapsActive;
 }
 
 function toggleLang() {
